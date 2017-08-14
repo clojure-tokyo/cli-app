@@ -1,2 +1,3 @@
 #!/bin/sh
-lein do clean, uberjar, test
+[[ $1 = -c ]] && lein clean
+lein do uberjar, test
