@@ -6,8 +6,8 @@
 (deftest basic-integration
   (testing "that the command runs"
     (is
-      (= (clojure.java.shell/sh "java" "-jar" "target/uberjar/cli-app-0.1.0-SNAPSHOT-standalone.jar" "george")
+      (= (clojure.java.shell/sh "java" "-jar" "target/uberjar/cli-app-0.1.0-SNAPSHOT-standalone.jar" "2 3" "+ 2 *")
           { :exit 0,
-            :out "Hello george!\n"
+            :out "10\n"
             :err "" }))))
 
