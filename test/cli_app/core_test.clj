@@ -11,11 +11,6 @@
             :out "10\n"
             :err "" }))))
 
-(deftest transparency
-  (testing "that the same number is returned"
-    (are [s expected] (= (calculate s) expected)
-      "10"  10)))
-
 (deftest parsing
   (testing "that the parsing works"
     (are [s expected] (= (parse s) expected)
@@ -32,3 +27,18 @@
                    :unprocessed "/"}
       "1 2 / 4 5" {:error       "Unexpected symbol"
                    :unprocessed "/ 4 5"})))
+
+(deftest transparency
+  (testing "that the same number is returned"
+    (are [s expected] (= (calculate s) expected)
+      [1]   1
+      [0]   0
+      []    nil
+      [10]  10)))
+
+(deftest basic-math
+  (testing "that some basic math is correct"
+    (are [s expected] (= (calculate s) expected)
+      [1 2 :+]      3
+      [1 2 :+ 3 :*] 9)))
+

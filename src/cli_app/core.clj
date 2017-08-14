@@ -33,11 +33,26 @@
   (when-let [e (:error expr)]
     (str e " We stopped parsing here: " (:unprocessed expr))))
 
+(defn- next-calculation
+  [expr acc res]
+  (let [[x & rest] expr]
+    (if (keyword? x)
+      [rest [] (-> x name symbol resolve (reduce (or res 0) acc))]
+      [rest (conj acc x) res])))
+
+(defn- do-calculation
+  ([expr]
+    (do-calculation expr [] nil))
+  ([expr acc res]
+    (if expr
+      (apply do-calculation (next-calculation expr acc res))
+      (or res (last acc)))))
+
 (defn calculate
   [expr]
   (or
     (error expr)
-    10))
+    (do-calculation expr)))
 
 (defn -main
   [& args]
@@ -46,5 +61,3 @@
        parse
        calculate
        println))
-
-
